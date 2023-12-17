@@ -1,5 +1,4 @@
 #include "monty.h"
-stack_t *head = NULL;
 
 /**
  * main - Entry point of the program.
@@ -13,16 +12,17 @@ stack_t *head = NULL;
 
 int main(int argc, char *argv[])
 {
-	if (argc != 2)
-	{
-		fprintf(stderr, "USAGE: monty file\n");
-		exit(EXIT_FAILURE);
-	}
-	open_file_fonction(argv[1]);
-	free_nodes_fonction();
-	return (0);
-}
+    stack_t *head = NULL;  // Move the declaration here
 
+    if (argc != 2)
+    {
+        fprintf(stderr, "USAGE: monty file\n");
+        exit(EXIT_FAILURE);
+    }
+    open_file_fonction(argv[1]);
+    free_nodes_fonction(&head);  // Pass the head as a parameter
+    return (0);
+}
 /**
  * create_node_fonction - Creates a node.
  * @n: Number to be stored inside the node.
@@ -49,19 +49,19 @@ stack_t *create_node_fonction(int n)
  *              It is responsible for deallocating resources and preventing memory leaks.
  */
 
-void free_nodes_fonction(void)
+void free_nodes_fonction(stack_t **head)
 {
-	stack_t *temporary_v;
+    stack_t *temporary_v;
 
-	if (head == NULL)
-		return;
+    if (*head == NULL)
+        return;
 
-	while (head != NULL)
-	{
-		temporary_v = head;
-		head = head->next;
-		free(temporary_v);
-	}
+    while (*head != NULL)
+    {
+        temporary_v = *head;
+        *head = (*head)->next;
+        free(temporary_v);
+    }
 }
 
 
